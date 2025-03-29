@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35828.75 d17.13
+VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dansetup", "dansetup\dansetup.csproj", "{32BB44C4-42AB-4C0E-B101-7F1D4577F023}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanMotor_BusinessData", "DanMotor_BusinessData\DanMotor_BusinessData.csproj", "{DE696DCE-E6F1-4EE9-A146-99C4821B3B06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{32BB44C4-42AB-4C0E-B101-7F1D4577F023}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32BB44C4-42AB-4C0E-B101-7F1D4577F023}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32BB44C4-42AB-4C0E-B101-7F1D4577F023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE696DCE-E6F1-4EE9-A146-99C4821B3B06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE696DCE-E6F1-4EE9-A146-99C4821B3B06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE696DCE-E6F1-4EE9-A146-99C4821B3B06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE696DCE-E6F1-4EE9-A146-99C4821B3B06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
