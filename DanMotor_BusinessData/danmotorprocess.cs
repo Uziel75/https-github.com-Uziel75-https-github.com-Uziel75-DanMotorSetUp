@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using DanMotor.DL;
 
-namespace DanMotor
+namespace DanMotor.BL
 {
     public class MotorService
     {
@@ -9,46 +10,7 @@ namespace DanMotor
 
         public MotorService()
         {
-            // Initialize the motor concepts with some data
-            motorConcepts = new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>
-            {
-                { "Honda", new Dictionary<string, Dictionary<string, List<string>>>
-                    {
-                        { "Click 125", new Dictionary<string, List<string>>
-                            {
-                                { "Malaysian", new List<string> { } },
-                                { "Indonesian", new List<string> { } },
-                                { "Thai", new List<string> { } }
-                            }
-                        },
-                        { "Sniper 155", new Dictionary<string, List<string>>
-                            {
-                                { "Malaysian", new List<string> { } },
-                                { "Indonesian", new List<string> { } },
-                                { "Thai", new List<string> { } }
-                            }
-                        }
-                    }
-                },
-                { "Yamaha", new Dictionary<string, Dictionary<string, List<string>>>
-                    {
-                        { "Mio 125", new Dictionary<string, List<string>>
-                            {
-                                { "Malaysian", new List<string> { } },
-                                { "Indonesian", new List<string> { } },
-                                { "Thai", new List<string> { } }
-                            }
-                        },
-                        { "Raider 150", new Dictionary<string, List<string>>
-                            {
-                                { "Malaysian", new List<string> { } },
-                                { "Indonesian", new List<string> { } },
-                                { "Thai", new List<string> { } }
-                            }
-                        }
-                    }
-                }
-            };
+            motorConcepts = MotorDataStore.InitializeData();
         }
 
         public List<string> GetModels(string brand)
@@ -104,6 +66,11 @@ namespace DanMotor
             }
             return false;
         }
+
+        public List<string> SearchParts(string brand, string model, string concept, string keyword)
+        {
+            var parts = GetParts(brand, model, concept);
+            return parts.FindAll(p => p.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
     }
 }
-    

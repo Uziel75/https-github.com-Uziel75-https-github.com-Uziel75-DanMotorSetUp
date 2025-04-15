@@ -1,7 +1,8 @@
 ﻿using System;
+using DanMotor.BL;
 using System.Collections.Generic;
 
-namespace DanMotor
+namespace DanMotor.UI
 {
     class Program
     {
@@ -90,7 +91,6 @@ namespace DanMotor
             if (parts.Count == 0)
             {
                 Console.WriteLine("No parts available. You can add new parts.");
-                AddEditDeletePart(brand, model, concept);
             }
             else
             {
@@ -99,8 +99,8 @@ namespace DanMotor
                 {
                     Console.WriteLine($"[{i + 1}] {parts[i]}");
                 }
-                AddEditDeletePart(brand, model, concept);
             }
+            AddEditDeletePart(brand, model, concept);
         }
 
         static void AddEditDeletePart(string brand, string model, string concept)
@@ -109,10 +109,11 @@ namespace DanMotor
             Console.WriteLine("[1] Add Part");
             Console.WriteLine("[2] Edit Part");
             Console.WriteLine("[3] Delete Part");
+            Console.WriteLine("[4] Search Part");
             Console.WriteLine("[0] Back");
             Console.Write("Choose an option: ");
 
-            if (!int.TryParse(Console.ReadLine(), out int actionChoice) || actionChoice < 0 || actionChoice > 3)
+            if (!int.TryParse(Console.ReadLine(), out int actionChoice) || actionChoice < 0 || actionChoice > 4)
             {
                 Console.WriteLine("Invalid input. Try again.");
                 return;
@@ -134,13 +135,26 @@ namespace DanMotor
                 case 3:
                     DeletePart(brand, model, concept);
                     break;
+                case 4:
+                    Console.Write("Enter part name keyword to search: ");
+                    string keyword = Console.ReadLine();
+                    var results = motorService.SearchParts(brand, model, concept, keyword);
+                    if (results.Count > 0)
+                    {
+                        Console.WriteLine("Search Results:");
+                        foreach (var result in results)
+                            Console.WriteLine("- " + result);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No parts found matching keyword.");
+                    }
+                    break;
                 case 0:
                     return;
-                default:
-                    Console.WriteLine("Invalid choice. Try again.");
-                    break;
             }
-
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
             DisplayParts(brand, model, concept);
         }
 
@@ -204,4 +218,3 @@ namespace DanMotor
         }
     }
 }
-    
