@@ -1,37 +1,33 @@
-﻿using System.Collections.Generic;
+﻿// File: InMemoryDataStore.cs
+using System.Collections.Generic;
+using System.Linq;
 using DanMotor.Common;
 
 namespace DanMotor.DL
 {
-    public static class MotorDataStore
+    public class InMemoryDataStore : IDataStore
     {
-        public static Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>> InitializeData()
+        private List<MotorPartData> motorParts;
+
+        public InMemoryDataStore()
         {
-            return new Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>>
+            motorParts = new List<MotorPartData>
             {
-                { "Honda", new Dictionary<string, Dictionary<string, List<string>>>
-                    {
-                        { "Click 125", CreateConceptDict() },
-                        { "Sniper 155", CreateConceptDict() }
-                    }
-                },
-                { "Yamaha", new Dictionary<string, Dictionary<string, List<string>>>
-                    {
-                        { "Mio 125", CreateConceptDict() },
-                        { "Raider 150", CreateConceptDict() }
-                    }
-                }
+                new MotorPartData { Brand = "Honda", Model = "Click", Concept = "Sport", Parts = new List<string> { "Engine", "Tire" } },
+                new MotorPartData { Brand = "Honda", Model = "Wave", Concept = "Standard", Parts = new List<string> { "Chain", "Brake" } },
+                new MotorPartData { Brand = "Yamaha", Model = "Nmax", Concept = "Touring", Parts = new List<string> { "Seat", "Mirror" } },
+                new MotorPartData { Brand = "Yamaha", Model = "FZ", Concept = "Sport", Parts = new List<string> { "Exhaust", "Headlight" } }
             };
         }
 
-        private static Dictionary<string, List<string>> CreateConceptDict()
+        public List<MotorPartData> GetAll()
         {
-            var dict = new Dictionary<string, List<string>>();
-            foreach (var concept in MotorData.Concepts)
-            {
-                dict[concept] = new List<string>();
-            }
-            return dict;
+            return motorParts;
+        }
+
+        public void SaveAll(List<MotorPartData> data)
+        {
+            motorParts = data;
         }
     }
 }

@@ -1,76 +1,109 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using DanMotor.DL;
+using System.Linq;
+using DanMotor.Common;
 
 namespace DanMotor.BL
 {
     public class MotorService
     {
-        private readonly Dictionary<string, Dictionary<string, Dictionary<string, List<string>>>> motorConcepts;
+        private readonly IDataStore dataStore;
 
-        public MotorService()
+        public MotorService(IDataStore dataStore)
         {
-            motorConcepts = MotorDataStore.InitializeData();
+            this.dataStore = dataStore;
         }
 
-        public List<string> GetModels(string brand)
-        {
-            return motorConcepts.ContainsKey(brand) ? new List<string>(motorConcepts[brand].Keys) : new List<string>();
-        }
+        public List<string> GetBrands() => new List<string> { "Honda", "Yamaha" };
 
-        public List<string> GetConcepts(string brand, string model)
-        {
-            return motorConcepts.ContainsKey(brand) && motorConcepts[brand].ContainsKey(model)
-                ? new List<string>(motorConcepts[brand][model].Keys)
-                : new List<string>();
-        }
+        public List<string> GetModels(string brand) =>
+            dataStore.GetAll()
+                     .Where(d => d.Brand == brand)
+                     .Select(d => d.Model)
+                     .Distinct()
+                     .ToList();
+
+        public List<string> GetConcepts(string brand, string model) =>
+            dataStore.GetAll()
+                     .Where(d => d.Brand == brand && d.Model == model)
+                     .Select(d => d.Concept)
+                     .Distinct()
+                     .ToList();
 
         public List<string> GetParts(string brand, string model, string concept)
         {
-            return motorConcepts.ContainsKey(brand) && motorConcepts[brand].ContainsKey(model) && motorConcepts[brand][model].ContainsKey(concept)
-                ? motorConcepts[brand][model][concept]
-                : new List<string>();
+            var data = dataStore.GetAll()
+                .FirstOrDefault(d => d.Brand == brand && d.Model == model && d.Concept == concept);
+            return data?.Parts ?? new List<string>();
         }
 
         public bool AddPart(string brand, string model, string concept, string part)
         {
-            if (motorConcepts.ContainsKey(brand) && motorConcepts[brand].ContainsKey(model) && motorConcepts[brand][model].ContainsKey(concept))
+            if (string.IsNullOrWhiteSpace(part)) return false;
+            var allData = dataStore.GetAll();
+            var entry = allData.FirstOrDefault(d => d.Brand == brand && d.Model == model && d.Concept == concept);
+
+            if (entry == null)
             {
-                motorConcepts[brand][model][concept].Add(part);
+                entry = new MotorPartData
+                {
+                    Brand = brand,
+                    Model = model,
+                    Concept = concept,
+                    Parts = new List<string>()
+                };
+                allData.Add(entry);
+            }
+
+            if (!entry.Parts.Contains(part))
+            {
+                entry.Parts.Add(part);
+                dataStore.SaveAll(allData);
                 return true;
             }
+
             return false;
         }
 
         public bool EditPart(string brand, string model, string concept, string oldPart, string newPart)
         {
-            if (motorConcepts.ContainsKey(brand) && motorConcepts[brand].ContainsKey(model) && motorConcepts[brand][model].ContainsKey(concept))
+            if (string.IsNullOrWhiteSpace(newPart)) return false;
+            var allData = dataStore.GetAll();
+            var entry = allData.FirstOrDefault(d => d.Brand == brand && d.Model == model && d.Concept == concept);
+            if (entry == null) return false;
+
+            int idx = entry.Parts.IndexOf(oldPart);
+            if (idx >= 0 && !entry.Parts.Contains(newPart))
             {
-                var parts = motorConcepts[brand][model][concept];
-                int index = parts.IndexOf(oldPart);
-                if (index >= 0)
-                {
-                    parts[index] = newPart;
-                    return true;
-                }
+                entry.Parts[idx] = newPart;
+                dataStore.SaveAll(allData);
+                return true;
             }
+
             return false;
         }
 
         public bool DeletePart(string brand, string model, string concept, string part)
         {
-            if (motorConcepts.ContainsKey(brand) && motorConcepts[brand].ContainsKey(model) && motorConcepts[brand][model].ContainsKey(concept))
+            var allData = dataStore.GetAll();
+            var entry = allData.FirstOrDefault(d => d.Brand == brand && d.Model == model && d.Concept == concept);
+            if (entry == null) return false;
+
+            if (entry.Parts.Remove(part))
             {
-                var parts = motorConcepts[brand][model][concept];
-                return parts.Remove(part);
+                dataStore.SaveAll(allData);
+                return true;
             }
+
             return false;
         }
 
         public List<string> SearchParts(string brand, string model, string concept, string keyword)
         {
+            if (string.IsNullOrWhiteSpace(keyword)) return new List<string>();
+
             var parts = GetParts(brand, model, concept);
-            return parts.FindAll(p => p.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0);
+            return parts.Where(p => p.ToLower().Contains(keyword.ToLower())).ToList();
         }
     }
 }

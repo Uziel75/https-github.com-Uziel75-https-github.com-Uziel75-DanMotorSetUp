@@ -1,14 +1,25 @@
 ﻿using System;
 using DanMotor.BL;
+using DanMotor.DL;
+using DanMotor.Common;
 using System.Collections.Generic;
 
 namespace DanMotor.UI
 {
     class Program
     {
-        static MotorService motorService = new MotorService();
+        static MotorService motorService;
 
         static void Main()
+        {
+
+            IDataStore dataStore = new InMemoryDataStore(); 
+            motorService = new MotorService(dataStore);
+
+            RunMenu();
+        }
+
+        static void RunMenu()
         {
             while (true)
             {
@@ -24,6 +35,7 @@ namespace DanMotor.UI
                     Console.WriteLine("Invalid input. Try again.");
                     continue;
                 }
+
                 if (brandChoice == 3) break;
 
                 string selectedBrand = brandChoice == 1 ? "Honda" : "Yamaha";
@@ -53,6 +65,7 @@ namespace DanMotor.UI
                 Console.WriteLine("Invalid input. Try again.");
                 return;
             }
+
             if (modelChoice == 0) return;
 
             HandleConceptSelection(brand, models[modelChoice - 1]);
@@ -80,6 +93,7 @@ namespace DanMotor.UI
                 Console.WriteLine("Invalid input. Try again.");
                 return;
             }
+
             if (conceptChoice == 0) return;
 
             DisplayParts(brand, model, concepts[conceptChoice - 1]);
@@ -100,12 +114,13 @@ namespace DanMotor.UI
                     Console.WriteLine($"[{i + 1}] {parts[i]}");
                 }
             }
+
             AddEditDeletePart(brand, model, concept);
         }
 
         static void AddEditDeletePart(string brand, string model, string concept)
         {
-            Console.WriteLine("\nOptions: ");
+            Console.WriteLine("\nOptions:");
             Console.WriteLine("[1] Add Part");
             Console.WriteLine("[2] Edit Part");
             Console.WriteLine("[3] Delete Part");
@@ -153,6 +168,7 @@ namespace DanMotor.UI
                 case 0:
                     return;
             }
+
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
             DisplayParts(brand, model, concept);

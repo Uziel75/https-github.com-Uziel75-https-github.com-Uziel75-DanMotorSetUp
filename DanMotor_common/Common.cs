@@ -1,9 +1,24 @@
-﻿using System;
+﻿using System.Collections.Generic;
+
 namespace DanMotor.Common
 {
-    public static class MotorData
+    public class MotorPartData
     {
-        public static readonly string[] Brands = { "Honda", "Yamaha" };
-        public static readonly string[] Concepts = { "Malaysian", "Indonesian", "Thai" };
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public string Concept { get; set; }
+        public List<string> Parts { get; set; }
+    }
+}
+
+
+using System.Collections.Generic;
+
+namespace DanMotor.Common
+{
+    public interface IDataStore
+    {
+        List<MotorPartData> GetAll();
+        void SaveAll(List<MotorPartData> data);
     }
 }
