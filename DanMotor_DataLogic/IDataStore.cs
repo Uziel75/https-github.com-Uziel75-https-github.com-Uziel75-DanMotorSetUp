@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DanMotor.Common
+﻿namespace DanMotor.Common
 {
     public interface IDataStore
     {
