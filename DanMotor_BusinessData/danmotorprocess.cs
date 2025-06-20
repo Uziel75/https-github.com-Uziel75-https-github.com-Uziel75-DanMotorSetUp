@@ -1,109 +1,129 @@
-﻿
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using DanMotor.Common;
+using DanMotor.Data;
 
-namespace DanMotor.BL
+namespace DanMotor.Business
 {
     public class MotorService
     {
-        private readonly IDataStore dataStore;
+        private IDataStore dataStore;
 
-        public MotorService(IDataStore dataStore)
+        public MotorService()
         {
-            this.dataStore = dataStore;
+            // Change here which data store you want to use:
+            // dataStore = new InMemoryDataStore();
+            // dataStore = new TextFileDataStore();
+            dataStore = new JsonFileDataStore();
         }
 
-        public List<string> GetBrands() => new List<string> { "Honda", "Yamaha" };
-
-        public List<string> GetModels(string brand) =>
-            dataStore.GetAll()
-                     .Where(d => d.Brand == brand)
-                     .Select(d => d.Model)
-                     .Distinct()
-                     .ToList();
-
-        public List<string> GetConcepts(string brand, string model) =>
-            dataStore.GetAll()
-                     .Where(d => d.Brand == brand && d.Model == model)
-                     .Select(d => d.Concept)
-                     .Distinct()
-                     .ToList();
-
-        public List<string> GetParts(string brand, string model, string concept)
+        public void ViewBrands()
         {
-            var data = dataStore.GetAll()
-                .FirstOrDefault(d => d.Brand == brand && d.Model == model && d.Concept == concept);
-            return data?.Parts ?? new List<string>();
+            var brands = dataStore.GetBrands();
+            Console.WriteLine("\nBrands:");
+            foreach (var brand in brands)
+                Console.WriteLine("- " + brand);
         }
 
-        public bool AddPart(string brand, string model, string concept, string part)
+        public void AddPart()
         {
-            if (string.IsNullOrWhiteSpace(part)) return false;
-            var allData = dataStore.GetAll();
-            var entry = allData.FirstOrDefault(d => d.Brand == brand && d.Model == model && d.Concept == concept);
+            Console.Write("Enter brand: ");
+            string brand = Console.ReadLine();
+            Console.Write("Enter model: ");
+            string model = Console.ReadLine();
+            Console.Write("Enter concept: ");
+            string concept = Console.ReadLine();
+            Console.Write("Enter part: ");
+            string part = Console.ReadLine();
 
-            if (entry == null)
+            if (string.IsNullOrWhiteSpace(brand) || string.IsNullOrWhiteSpace(model) ||
+                string.IsNullOrWhiteSpace(concept) || string.IsNullOrWhiteSpace(part))
             {
-                entry = new MotorPartData
-                {
-                    Brand = brand,
-                    Model = model,
-                    Concept = concept,
-                    Parts = new List<string>()
-                };
-                allData.Add(entry);
+                Console.WriteLine("All fields are required.");
+                return;
             }
 
-            if (!entry.Parts.Contains(part))
-            {
-                entry.Parts.Add(part);
-                dataStore.SaveAll(allData);
-                return true;
-            }
-
-            return false;
+            if (dataStore.AddPart(brand.Trim(), model.Trim(), concept.Trim(), part.Trim()))
+                Console.WriteLine("Part added successfully.");
+            else
+                Console.WriteLine("Failed to add part. Maybe it already exists.");
         }
 
-        public bool EditPart(string brand, string model, string concept, string oldPart, string newPart)
+        public void EditPart()
         {
-            if (string.IsNullOrWhiteSpace(newPart)) return false;
-            var allData = dataStore.GetAll();
-            var entry = allData.FirstOrDefault(d => d.Brand == brand && d.Model == model && d.Concept == concept);
-            if (entry == null) return false;
+            Console.Write("Enter brand: ");
+            string brand = Console.ReadLine();
+            Console.Write("Enter model: ");
+            string model = Console.ReadLine();
+            Console.Write("Enter concept: ");
+            string concept = Console.ReadLine();
+            Console.Write("Enter old part: ");
+            string oldPart = Console.ReadLine();
+            Console.Write("Enter new part: ");
+            string newPart = Console.ReadLine();
 
-            int idx = entry.Parts.IndexOf(oldPart);
-            if (idx >= 0 && !entry.Parts.Contains(newPart))
+            if (string.IsNullOrWhiteSpace(brand) || string.IsNullOrWhiteSpace(model) ||
+                string.IsNullOrWhiteSpace(concept) || string.IsNullOrWhiteSpace(oldPart) ||
+                string.IsNullOrWhiteSpace(newPart))
             {
-                entry.Parts[idx] = newPart;
-                dataStore.SaveAll(allData);
-                return true;
+                Console.WriteLine("All fields are required.");
+                return;
             }
 
-            return false;
+            if (dataStore.EditPart(brand.Trim(), model.Trim(), concept.Trim(), oldPart.Trim(), newPart.Trim()))
+                Console.WriteLine("Part updated successfully.");
+            else
+                Console.WriteLine("Failed to update part. Check if old part exists.");
         }
 
-        public bool DeletePart(string brand, string model, string concept, string part)
+        public void DeletePart()
         {
-            var allData = dataStore.GetAll();
-            var entry = allData.FirstOrDefault(d => d.Brand == brand && d.Model == model && d.Concept == concept);
-            if (entry == null) return false;
+            Console.Write("Enter brand: ");
+            string brand = Console.ReadLine();
+            Console.Write("Enter model: ");
+            string model = Console.ReadLine();
+            Console.Write("Enter concept: ");
+            string concept = Console.ReadLine();
+            Console.Write("Enter part to delete: ");
+            string part = Console.ReadLine();
 
-            if (entry.Parts.Remove(part))
+            if (string.IsNullOrWhiteSpace(brand) || string.IsNullOrWhiteSpace(model) ||
+                string.IsNullOrWhiteSpace(concept) || string.IsNullOrWhiteSpace(part))
             {
-                dataStore.SaveAll(allData);
-                return true;
+                Console.WriteLine("All fields are required.");
+                return;
             }
 
-            return false;
+            if (dataStore.DeletePart(brand.Trim(), model.Trim(), concept.Trim(), part.Trim()))
+                Console.WriteLine("Part deleted successfully.");
+            else
+                Console.WriteLine("Failed to delete part. Check if part exists.");
         }
 
-        public List<string> SearchParts(string brand, string model, string concept, string keyword)
+        public void SearchParts()
         {
-            if (string.IsNullOrWhiteSpace(keyword)) return new List<string>();
+            Console.Write("Enter brand: ");
+            string brand = Console.ReadLine();
+            Console.Write("Enter model: ");
+            string model = Console.ReadLine();
+            Console.Write("Enter concept: ");
+            string concept = Console.ReadLine();
+            Console.Write("Enter keyword to search: ");
+            string keyword = Console.ReadLine();
 
-            var parts = GetParts(brand, model, concept);
-            return parts.Where(p => p.ToLower().Contains(keyword.ToLower())).ToList();
+            if (string.IsNullOrWhiteSpace(brand) || string.IsNullOrWhiteSpace(model) ||
+                string.IsNullOrWhiteSpace(concept) || string.IsNullOrWhiteSpace(keyword))
+            {
+                Console.WriteLine("All fields are required.");
+                return;
+            }
+
+            var results = dataStore.SearchParts(brand.Trim(), model.Trim(), concept.Trim(), keyword.Trim());
+            Console.WriteLine("\nSearch Results:");
+            if (results.Count == 0)
+                Console.WriteLine("No matching parts found.");
+            else
+                foreach (var part in results)
+                    Console.WriteLine("- " + part);
         }
     }
 }

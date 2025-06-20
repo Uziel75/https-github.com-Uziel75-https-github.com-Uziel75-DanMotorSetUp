@@ -2,23 +2,11 @@
 
 namespace DanMotor.Common
 {
-    public class MotorPartData
+    public class MotorModel
     {
-        public string Brand { get; set; }
-        public string Model { get; set; }
-        public string Concept { get; set; }
-        public List<string> Parts { get; set; }
-    }
-}
-
-
-using System.Collections.Generic;
-
-namespace DanMotor.Common
-{
-    public interface IDataStore
-    {
-        List<MotorPartData> GetAll();
-        void SaveAll(List<MotorPartData> data);
+        public string Brand { get; set; } = string.Empty;
+        public string Model { get; set; } = string.Empty;
+        public string Concept { get; set; } = string.Empty;
+        public List<string> Parts { get; set; } = new List<string>();
     }
 }

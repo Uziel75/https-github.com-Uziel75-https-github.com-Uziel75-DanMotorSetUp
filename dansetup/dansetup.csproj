@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DanMotor_BusinessData\DanMotor_BusinessLogic.csproj" />
+    <ProjectReference Include="..\DanMotor_common\DanMotor_common.csproj" />
+    <ProjectReference Include="..\DanMotor_DataLogic\DanMotor_DataLogic.csproj" />
   </ItemGroup>
 
 </Project>
