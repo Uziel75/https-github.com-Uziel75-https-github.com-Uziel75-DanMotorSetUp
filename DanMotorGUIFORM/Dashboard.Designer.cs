@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             label1 = new Label();
             listBoxParts = new ListBox();
             btnEditParts = new Button();
@@ -43,6 +44,7 @@
             textBoxPart = new TextBox();
             label5 = new Label();
             btnExit = new Button();
+            radioButton1 = new RadioButton();
             SuspendLayout();
             // 
             // label1
@@ -50,8 +52,8 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Stencil", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = SystemColors.Highlight;
-            label1.Location = new Point(411, 61);
+            label1.ForeColor = SystemColors.HighlightText;
+            label1.Location = new Point(377, 9);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(640, 43);
@@ -61,7 +63,7 @@
             // 
             // listBoxParts
             // 
-            listBoxParts.ForeColor = SystemColors.MenuHighlight;
+            listBoxParts.ForeColor = SystemColors.InfoText;
             listBoxParts.FormattingEnabled = true;
             listBoxParts.Location = new Point(166, 196);
             listBoxParts.Margin = new Padding(4, 3, 4, 3);
@@ -73,7 +75,7 @@
             // btnEditParts
             // 
             btnEditParts.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnEditParts.Location = new Point(587, 196);
+            btnEditParts.Location = new Point(587, 258);
             btnEditParts.Margin = new Padding(4, 3, 4, 3);
             btnEditParts.Name = "btnEditParts";
             btnEditParts.Size = new Size(235, 49);
@@ -85,7 +87,7 @@
             // btnDeleteParts
             // 
             btnDeleteParts.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnDeleteParts.Location = new Point(587, 268);
+            btnDeleteParts.Location = new Point(587, 323);
             btnDeleteParts.Margin = new Padding(4, 3, 4, 3);
             btnDeleteParts.Name = "btnDeleteParts";
             btnDeleteParts.RightToLeft = RightToLeft.Yes;
@@ -98,7 +100,7 @@
             // btnAddParts
             // 
             btnAddParts.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnAddParts.Location = new Point(894, 196);
+            btnAddParts.Location = new Point(587, 196);
             btnAddParts.Margin = new Padding(4, 3, 4, 3);
             btnAddParts.Name = "btnAddParts";
             btnAddParts.RightToLeft = RightToLeft.Yes;
@@ -111,7 +113,7 @@
             // radioButtonYamaha
             // 
             radioButtonYamaha.AutoSize = true;
-            radioButtonYamaha.Location = new Point(894, 310);
+            radioButtonYamaha.Location = new Point(894, 281);
             radioButtonYamaha.Name = "radioButtonYamaha";
             radioButtonYamaha.Size = new Size(114, 28);
             radioButtonYamaha.TabIndex = 5;
@@ -123,7 +125,7 @@
             // radioButtonHonda
             // 
             radioButtonHonda.AutoSize = true;
-            radioButtonHonda.Location = new Point(894, 344);
+            radioButtonHonda.Location = new Point(894, 315);
             radioButtonHonda.Name = "radioButtonHonda";
             radioButtonHonda.Size = new Size(101, 28);
             radioButtonHonda.TabIndex = 6;
@@ -137,8 +139,8 @@
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = SystemColors.Highlight;
-            label2.Location = new Point(884, 278);
+            label2.ForeColor = SystemColors.ActiveCaptionText;
+            label2.Location = new Point(884, 206);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(181, 29);
@@ -150,7 +152,7 @@
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.ForeColor = SystemColors.Highlight;
+            label3.ForeColor = SystemColors.ControlLightLight;
             label3.Location = new Point(884, 375);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
@@ -172,7 +174,7 @@
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.ForeColor = SystemColors.Highlight;
+            label4.ForeColor = SystemColors.ControlLightLight;
             label4.Location = new Point(884, 463);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
@@ -201,7 +203,7 @@
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Stencil", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.ForeColor = SystemColors.Highlight;
+            label5.ForeColor = SystemColors.ControlLightLight;
             label5.Location = new Point(884, 545);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
@@ -222,12 +224,26 @@
             btnExit.UseVisualStyleBackColor = true;
             btnExit.Click += btnExit_Click;
             // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new Point(894, 247);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(107, 28);
+            radioButton1.TabIndex = 15;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "Suzuki";
+            radioButton1.UseVisualStyleBackColor = true;
+            radioButton1.CheckedChanged += radioButton1_CheckedChanged;
+            // 
             // Dashboard
             // 
             AutoScaleDimensions = new SizeF(13F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightYellow;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(1642, 678);
+            Controls.Add(radioButton1);
             Controls.Add(btnExit);
             Controls.Add(label5);
             Controls.Add(textBoxPart);
@@ -243,11 +259,13 @@
             Controls.Add(btnEditParts);
             Controls.Add(listBoxParts);
             Controls.Add(label1);
+            Cursor = Cursors.HSplit;
             Font = new Font("Stencil", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ForeColor = Color.CornflowerBlue;
+            ForeColor = Color.DarkSlateGray;
             Margin = new Padding(4, 3, 4, 3);
             Name = "Dashboard";
             Text = "Dashboard";
+            Load += Dashboard_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -269,5 +287,6 @@
         private TextBox textBoxPart;
         private Label label5;
         private Button btnExit;
+        private RadioButton radioButton1;
     }
 }

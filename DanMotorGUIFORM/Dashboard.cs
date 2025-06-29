@@ -157,5 +157,15 @@ namespace DanMotorGUIFORM
         {
             Application.Exit();
         }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Dashboard_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

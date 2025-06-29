@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanMotor_common", "DanMotor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanMotorGUIFORM", "DanMotorGUIFORM\DanMotorGUIFORM.csproj", "{04BBF031-643F-4A8C-A9B0-37948FE8A8B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanMotorAPI", "DanMotorAPI\DanMotorAPI.csproj", "{32B5528F-14AA-437C-9412-275978829BFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{04BBF031-643F-4A8C-A9B0-37948FE8A8B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04BBF031-643F-4A8C-A9B0-37948FE8A8B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04BBF031-643F-4A8C-A9B0-37948FE8A8B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32B5528F-14AA-437C-9412-275978829BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32B5528F-14AA-437C-9412-275978829BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32B5528F-14AA-437C-9412-275978829BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32B5528F-14AA-437C-9412-275978829BFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
